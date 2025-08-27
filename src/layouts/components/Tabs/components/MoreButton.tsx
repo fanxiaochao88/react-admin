@@ -20,6 +20,7 @@ const MoreButton = (props: any) => {
 			return item.path === tabPath || item.path === HOME_URL;
 		});
 		dispatch(setTabsList(newTabsList));
+		// 如果tabPath为空, 则跳转到首页
 		tabPath ?? navigate(HOME_URL);
 	};
 

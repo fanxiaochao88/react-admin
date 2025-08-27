@@ -16,8 +16,8 @@ const LayoutMenu = () => {
 	const dispatch = useDispatch();
 	const { isCollapse, menuList: reduxMenuList } = useSelector((state: RootState) => state.menu);
 	const { pathname } = useLocation();
-	const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
-	const [openKeys, setOpenKeys] = useState<string[]>([]);
+	const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]); // 当前选中的菜单
+	const [openKeys, setOpenKeys] = useState<string[]>([]); // 当前展开的 subMenu
 
 	// 刷新页面菜单保持高亮
 	useEffect(() => {
@@ -61,8 +61,11 @@ const LayoutMenu = () => {
 	const deepLoopFloat = (menuList: Menu.MenuOptions[], newArr: MenuItem[] = []) => {
 		menuList.forEach((item: Menu.MenuOptions) => {
 			// 下面判断代码解释 *** !item?.children?.length   ==>   (!item.children || item.children.length === 0)
-			if (!item?.children?.length) return newArr.push(getItem(item.title, item.path, addIcon(item.icon!)));
-			newArr.push(getItem(item.title, item.path, addIcon(item.icon!), deepLoopFloat(item.children)));
+			if (!item?.children?.length) {
+				newArr.push(getItem(item.title, item.path, addIcon(item.icon!)));
+			} else {
+				newArr.push(getItem(item.title, item.path, addIcon(item.icon!), deepLoopFloat(item.children)));
+			}
 		});
 		return newArr;
 	};
@@ -75,11 +78,15 @@ const LayoutMenu = () => {
 		try {
 			const { data } = await getMenuList();
 			if (!data) return;
+			console.log("原始菜单数据: ", data);
 			setMenuList(deepLoopFloat(data));
+			console.log("处理后的菜单数据: ", deepLoopFloat(data));
 			// 存储处理过后的所有面包屑导航栏到 redux 中
 			dispatch(setBreadcrumbList(findAllBreadcrumb(data)));
+			console.log("处理后的面包屑数据: ", findAllBreadcrumb(data));
 			// 把路由菜单处理成一维数组，存储到 redux 中，做菜单权限判断
 			const dynamicRouter = handleRouter(data);
+			console.log("处理后的路由数据: ", dynamicRouter);
 			dispatch(setAuthRouter(dynamicRouter));
 			dispatch(reduxSetMenuList(data));
 		} finally {
@@ -91,7 +98,7 @@ const LayoutMenu = () => {
 	}, []);
 
 	// 点击当前菜单跳转页面
-	const navigate = useNavigate();
+	const navigate = useNavigate(); // 路由跳转
 	const clickMenu: MenuProps["onClick"] = ({ key }: { key: string }) => {
 		const route = searchRoute(key, reduxMenuList);
 		if (route.isLink) window.open(route.isLink, "_blank");

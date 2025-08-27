@@ -4,7 +4,8 @@
 	"stylelint.enable": true,
 	// 开启stylelint自动修复
 	"editor.codeActionsOnSave": {
-		"source.fixAll.stylelint": true
+		"source.fixAll.eslint": "always",
+		"source.fixAll.stylelint": "always"
 	},
 	// 配置stylelint检查的文件类型范围
 	"stylelint.validate": ["css", "less", "postcss", "scss", "sass"],
@@ -44,5 +45,8 @@
 		"truetype",
 		"zhongyingwen",
 		"zhuti"
-	]
+	],
+	"editor.fontFamily": "'JetBrains Mono',Consolas, 'Courier New', monospace",
+	"editor.fontSize": 13,
+	"editor.lineHeight": 1.7
 }

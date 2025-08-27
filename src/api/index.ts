@@ -11,6 +11,13 @@ import { store } from "@/redux";
 
 const axiosCanceler = new AxiosCanceler();
 
+// 🔍 环境变量调试信息
+console.log("🌍 当前环境:", import.meta.env.MODE);
+console.log("🔗 API地址:", import.meta.env.VITE_API_URL);
+console.log("🚀 是否开发环境:", import.meta.env.DEV);
+console.log("📦 是否生产环境:", import.meta.env.PROD);
+console.log("🎯 所有VITE环境变量:", import.meta.env);
+
 const config = {
 	// 默认地址请求地址，可在 .env 开头文件中修改
 	baseURL: import.meta.env.VITE_API_URL as string,

@@ -26,11 +26,9 @@ const LayoutIndex = () => {
 	// 监听窗口大小变化
 	const listeningWindow = () => {
 		window.onresize = () => {
-			return (() => {
-				let screenWidth = document.body.clientWidth;
-				if (!isCollapse && screenWidth < 1200) dispatch(updateCollapse(true));
-				if (!isCollapse && screenWidth > 1200) dispatch(updateCollapse(false));
-			})();
+			let screenWidth = document.body.clientWidth;
+			if (!isCollapse && screenWidth < 1200) dispatch(updateCollapse(true));
+			if (!isCollapse && screenWidth > 1200) dispatch(updateCollapse(false));
 		};
 	};
 

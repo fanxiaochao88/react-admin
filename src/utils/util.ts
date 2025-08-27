@@ -58,13 +58,13 @@ export const getBrowserLang = () => {
 
 /**
  * @description 获取需要展开的 subMenu
- * @param {String} path 当前访问地址
- * @returns array
+ * @param {String} path 当前访问地址 /proTable/useHooks
+ * @returns array [ "/proTable", "/proTable/useHooks" ]
  */
 export const getOpenKeys = (path: string) => {
 	let newStr: string = "";
 	let newArr: any[] = [];
-	let arr = path.split("/").map(i => "/" + i);
+	let arr = path.split("/").map(i => "/" + i); // ["/" ,"/proTable", "/useHooks" ]
 	for (let i = 1; i < arr.length - 1; i++) {
 		newStr += arr[i];
 		newArr.push(newStr);
@@ -133,8 +133,11 @@ export const findAllBreadcrumb = (menuList: Menu.MenuOptions[]): { [key: string]
 	let handleBreadcrumbList: any = {};
 	const loop = (menuItem: Menu.MenuOptions) => {
 		// 下面判断代码解释 *** !item?.children?.length   ==>   (item.children && item.children.length > 0)
-		if (menuItem?.children?.length) menuItem.children.forEach(item => loop(item));
-		else handleBreadcrumbList[menuItem.path] = getBreadcrumbList(menuItem.path, menuList);
+		if (menuItem?.children?.length) {
+			menuItem.children.forEach(item => loop(item));
+		} else {
+			handleBreadcrumbList[menuItem.path] = getBreadcrumbList(menuItem.path, menuList);
+		}
 	};
 	menuList.forEach(item => loop(item));
 	return handleBreadcrumbList;

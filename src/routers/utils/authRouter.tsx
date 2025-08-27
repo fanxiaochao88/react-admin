@@ -12,6 +12,7 @@ const AuthRouter = (props: { children: JSX.Element }) => {
 	// * Dynamic Router(动态路由，根据后端返回的菜单数据生成的一维数组)
 	const { authRouter } = useSelector((state: RootState) => state.auth);
 
+	// * 获取当前路径
 	const { pathname } = useLocation();
 	const route = searchRoute(pathname, rootRouter);
 

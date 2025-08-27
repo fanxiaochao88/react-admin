@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Avatar, Modal, Menu, Dropdown, message } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { useDispatch } from "@/redux";
 import { setToken } from "@/redux/modules/global";
 import PasswordModal from "./PasswordModal";
 import InfoModal from "./InfoModal";
+import InfoModal2 from "./InfoModal2";
 import avatar from "@/assets/images/avatar.png";
 
 const AvatarIcon = () => {
@@ -15,9 +16,11 @@ const AvatarIcon = () => {
 
 	interface ModalProps {
 		showModal: (params: { name: number }) => void;
+		test?: () => void;
 	}
 	const passRef = useRef<ModalProps>(null);
 	const infoRef = useRef<ModalProps>(null);
+	const [isShow, setIsShow] = useState(false);
 
 	// 退出登录
 	const logout = () => {
@@ -35,6 +38,11 @@ const AvatarIcon = () => {
 		});
 	};
 
+	const handleInfoModal = () => {
+		infoRef.current!.showModal({ name: 11 });
+		infoRef.current!.test?.();
+	};
+
 	// Dropdown Menu
 	const menu = (
 		<Menu
@@ -47,7 +55,7 @@ const AvatarIcon = () => {
 				{
 					key: "2",
 					label: <span className="dropdown-item">个人信息</span>,
-					onClick: () => infoRef.current!.showModal({ name: 11 })
+					onClick: () => handleInfoModal()
 				},
 				{
 					key: "3",
@@ -61,6 +69,11 @@ const AvatarIcon = () => {
 					key: "4",
 					label: <span className="dropdown-item">退出登录</span>,
 					onClick: logout
+				},
+				{
+					key: "5",
+					label: <span className="dropdown-item">个人信息2</span>,
+					onClick: () => setIsShow(true)
 				}
 			]}
 		></Menu>
@@ -72,6 +85,7 @@ const AvatarIcon = () => {
 			</Dropdown>
 			<InfoModal innerRef={infoRef}></InfoModal>
 			<PasswordModal innerRef={passRef}></PasswordModal>
+			<InfoModal2 isShow={isShow} setIsShow={setIsShow}></InfoModal2>
 		</>
 	);
 };

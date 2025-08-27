@@ -2,14 +2,23 @@ import { useState, useImperativeHandle, Ref } from "react";
 import { Modal, message } from "antd";
 
 interface Props {
-	innerRef: Ref<{ showModal: (params: any) => void } | undefined>;
+	innerRef: Ref<
+		| {
+				showModal: (params: any) => void;
+				test?: () => void;
+		  }
+		| undefined
+	>;
 }
 
 const InfoModal = (props: Props) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	useImperativeHandle(props.innerRef, () => ({
-		showModal
+		showModal,
+		test: () => {
+			console.log("child test");
+		}
 	}));
 
 	const showModal = (params: { name: number }) => {

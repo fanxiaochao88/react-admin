@@ -10,7 +10,9 @@ const Theme = () => {
 	const [visible, setVisible] = useState<boolean>(false);
 
 	const onChange = (checked: boolean, theme: string) => {
-		if (checked) return dispatch(setWeakOrGray(theme));
+		if (checked) {
+			return dispatch(setWeakOrGray(theme));
+		}
 		dispatch(setWeakOrGray(""));
 	};
 
@@ -24,12 +26,13 @@ const Theme = () => {
 			></i>
 			<Drawer
 				title="布局设置"
-				closable={false}
+				closable={true}
+				maskClosable={true}
 				onClose={() => {
 					setVisible(false);
 				}}
 				visible={visible}
-				width={320}
+				width={330}
 			>
 				<Divider className="divider">
 					<FireOutlined />
